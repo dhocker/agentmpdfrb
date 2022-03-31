@@ -1,0 +1,199 @@
+/*
+Play List Styling
+TODO Only scroll the body of the table leaving the header fixed
+*/
+
+.table-fixed-content {
+  height:500px; /* Vertical size of the table body*/
+  overflow-y:auto;
+  font-size: 0.9rem;
+}
+
+.playlist-button-text {
+  font-size: 0.75rem !important;
+}
+
+/* fixed header manipulation
+  reference: https://stackoverflow.com/questions/21168521/table-fixed-header-and-scrollable-body
+  This CSS more or less works but it is complicated. It is likely to be
+  fragile and subject to breakage when CSS specs change.
+
+  Could not get this to work with Bootstrap 5
+*/
+
+//.header-fixed {
+//    width: 100%
+//}
+//
+//.header-fixed > thead,
+//.header-fixed > tbody,
+//.header-fixed > thead > tr,
+//.header-fixed > tbody > tr,
+//.header-fixed > thead > tr > th,
+//.header-fixed > tbody > tr > td {
+//    display: block;
+//}
+//
+//.header-fixed > tbody > tr:after,
+//.header-fixed > thead > tr:after {
+//    content: ' ';
+//    display: block;
+//    visibility: hidden;
+//    clear: both;
+//}
+//
+//.header-fixed > tbody {
+//    overflow-y: auto;
+//    height: 600px;
+//    /*
+//      This removes the scrollbar and algins columns.
+//      If you want the scrollbar remove it. The result will be a
+//      slight column misalignment.
+//    */
+//    // scrollbar-width: none;
+//}
+//
+//.header-fixed > tbody > tr > td,
+//.header-fixed > thead > tr > th {
+//    width: 20%;
+//    float: left;
+//}
+
+/*
+  This sets the width of the columns.
+ */
+//.header-fixed .pl1 {
+//    width: 10%;
+//}
+//.header-fixed .pl2 {
+//    width: 5%;
+//}
+//.header-fixed .pl3 {
+//    width: 30%;
+//}
+//.header-fixed .pl4 {
+//    width: 30%;
+//}
+//.header-fixed .pl5 {
+//    width: 25%;
+//}
+
+//.my-custom-scrollbar {
+//  position: relative;
+//  height: 200px;
+//  overflow: auto;
+//  width: 100%;
+//}
+//.table-wrapper-scroll-y {
+//  display: block;
+//}
+//
+//.header-sticky {
+//    position:sticky;
+//    top: 0 ;
+//}
+
+// Fresh try...this works better than header-fixed, but still has border and highlight issues
+
+/*
+  This is the second attempt to get a scrollable table with fixed header
+*/
+
+// tables with class table-scrollable
+table.table-scrollable {
+    width: 100%;
+}
+
+// elements inside of a scrollable table
+table.table-scrollable thead,
+table.table-scrollable tbody,
+table.table-scrollable tr,
+table.table-scrollable td,
+table.table-scrollable th {
+  display: block;
+}
+
+// after each row of a scrollable table
+table.table-scrollable tr::after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+table.table-scrollable thead th {
+    // height: 30px;
+
+    /*text-align: left;*/
+}
+
+table.table-scrollable tbody {
+    height: 600px;
+    overflow-y: auto;
+}
+
+thead {
+    /* fallback */
+}
+
+// needs to be fixed like .pl-1 etc.
+table.table-scrollable tbody td,
+table.table-scrollable thead th {
+    // width: 20%;
+    float: left;
+}
+
+// Set the relative width of the header columns
+// These numbers were determined empirically. The header does not
+// account for ascrollbar in the body. the result is some width juggling
+// to keep the header aligned with the body.
+th.pl1 {
+  width: 10%;
+}
+
+th.pl2 {
+  width: 5%;
+}
+
+th.pl3 {
+  width: 29.5%;
+}
+
+th.pl4 {
+  width: 29.5%;
+}
+
+th.pl5 {
+  width: 25%;
+}
+
+th.pl-scrollbar {
+  width: 1.0%;
+}
+
+// Set the relative width of the 5 table columns
+td.pl1 {
+  width: 10%;
+}
+
+td.pl2 {
+  width: 5%;
+}
+
+td.pl3 {
+  width: 30%;
+}
+
+td.pl4 {
+  width: 30%;
+}
+
+td.pl5 {
+  width: 25%;
+}
+
+// Zebra stripe color
+.row-stripe {
+  background: #e5e5e5;
+  background-color: #e5e5e5 !important;
+}

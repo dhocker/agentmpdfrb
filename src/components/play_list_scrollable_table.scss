@@ -1,0 +1,317 @@
+/*
+  Reference: https://www.w3docs.com/snippets/html/how-to-create-a-table-with-a-fixed-header-and-scrollable-body.html
+  Example of creating a table with a scrollable body by using
+  the display property (the second example).
+  This article was the starting point for a scrollable table with fixed header.
+*/
+
+.fixed_header {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.fixed_header tbody {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  height: 600px;
+}
+
+.fixed_header thead {
+  display: block;
+}
+
+.fixed_header thead {
+  background: #9fcdff;
+  color: #000;
+  display: table;
+  width: 100%;
+}
+
+.fixed_header th,
+.fixed_header td {
+  padding: 5px;
+  text-align: left;
+  border-color: black;
+  border-width: 2px;
+  border-style: solid none solid none
+}
+
+// Set the relative width of the header columns
+// These numbers were determined empirically by considerable trial and error.
+// The header does not account for a scrollbar in the body.
+// The result is some major width juggling to keep the header aligned with the body.
+// Note that the columns only total about 96.25%.
+.fixed_header th.pl1 {
+  width: 9.5%;
+}
+
+.fixed_header th.pl2 {
+  width: 4.75%;
+}
+
+.fixed_header th.pl3 {
+  width: 28.5%;
+}
+
+.fixed_header th.pl4 {
+  width: 28.5%;
+}
+
+.fixed_header th.pl5 {
+  width: 22%;
+}
+
+// This covers the scrollbar
+.fixed_header th.pl6 {
+  width: 3%;
+}
+
+// Set the relative width of the 5 table columns
+.fixed_header td.pl1 {
+  width: 10%;
+}
+
+.fixed_header td.pl2 {
+  width: 5%;
+}
+
+.fixed_header td.pl3 {
+  width: 30%;
+}
+
+.fixed_header td.pl4 {
+  width: 30%;
+}
+
+.fixed_header td.pl5 {
+  width: 25%;
+}
+
+// Zebra stripe color
+.row-stripe {
+  background: #e5e5e5;
+  background-color: #e5e5e5 !important;
+}
+
+/*
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title of the document</title>
+    <style>
+      .fixed_header {
+        width: 600px;
+        table-layout: fixed;
+        border-collapse: collapse;
+      }
+      .fixed_header tbody {
+        display: block;
+        width: 100%;
+        overflow: auto;
+        height: 200px;
+      }
+      .fixed_header thead tr {
+        display: block;
+      }
+      .fixed_header thead {
+        background: lightgray;
+        color: #000;
+      }
+      .fixed_header th,
+      .fixed_header td {
+        padding: 5px;
+        text-align: left;
+        width: 200px;
+        border-color: black;
+        border-width: 2px;
+        border-style: solid none solid none
+      }
+    </style>
+  </head>
+  <body>
+    <table class="fixed_header">
+      <thead>
+        <tr>
+          <th>Col 1</th>
+          <th>Col 2</th>
+          <th>Col 3</th>
+          <th>Col 4</th>
+          <th>Col 5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Text wider than most</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+        <tr>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+          <td>Text</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+ */
