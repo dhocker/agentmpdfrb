@@ -1,6 +1,6 @@
 /*
     AJAX utility functions
-    Copyright © 2020  Dave Hocker (email: AtHomeX10@gmail.com)
+    Copyright © 2020, 2022  Dave Hocker (email: AtHomeX10@gmail.com)
 
     References
     https://javascript.info/async-await

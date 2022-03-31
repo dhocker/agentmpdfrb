@@ -1,6 +1,6 @@
 /*
   Markdown to HTML to JSX React Component
-  © 2020 Dave Hocker (AtHomeX10@gmail.com)
+  © 2020, 2022 Dave Hocker (AtHomeX10@gmail.com)
 
   Takes markdown formatted text and renders it using GitHub flavored
   markdown styling.
