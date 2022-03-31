@@ -37,6 +37,7 @@ export class EditablePlayList extends BasePlayList {
         this.state = {
             rows: [],
             alertMessage: "",
+            rows_selected: 0,
         };
 
         this.loadPlayList = this.loadPlayList.bind(this);
@@ -109,7 +110,16 @@ export class EditablePlayList extends BasePlayList {
         const value = target.value;
         const row_index = parseInt(value) - 1;
         this.state.rows[row_index]["selected"] = checked;
-        this.setState({rows: this.state.rows});
+
+        // Count how many rows are checked
+        let selected = 0;
+        for (let i = 0; i < this.state.rows.length; i++) {
+            if (this.state.rows[i]["selected"]) {
+                selected = selected + 1;
+            }
+        }
+
+        this.setState({rows: this.state.rows, rows_selected: selected});
     }
 
     async onRemoveSelected() {
@@ -150,7 +160,11 @@ export class EditablePlayList extends BasePlayList {
                         <tbody>{RowComponents}</tbody>
                         <tfoot/>
                     </table>
-                    <Button className="mt-3 mb-3" onClick={this.onRemoveSelected}>
+                    <Button
+                        className="mt-3 mb-3"
+                        onClick={this.onRemoveSelected}
+                        disabled={this.state.rows_selected <= 0}
+                    >
                         Remove Selected
                     </Button>
                 </div>
