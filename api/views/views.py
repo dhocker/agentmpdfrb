@@ -58,6 +58,7 @@ def logos(reso):
     return send_from_directory(build_dir, logo_file)
 
 
+@app.route(url_with_prefix("/about"), methods=['GET'])
 @app.route(url_with_prefix("/player"), methods=['GET'])
 @app.route(url_with_prefix("/editplaylist"), methods=['GET'])
 @app.route(url_with_prefix("/settingsform"), methods=['GET'])
