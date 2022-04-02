@@ -16,7 +16,7 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.scss';
 import App from './App';
@@ -26,11 +26,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 // components takes precedence over default styles.
 import './bootstrap-custom.scss';
 
-ReactDOM.render(
+// React 18
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
