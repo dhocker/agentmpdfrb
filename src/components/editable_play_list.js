@@ -18,6 +18,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
+import { Row, Col } from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import { ajaxSend } from "./ajax_utils";
 import "./play_list_scrollable_table.scss";
@@ -32,6 +33,7 @@ export class EditablePlayList extends BasePlayList {
 
         this.messageTimer = null
         this.reload_playlist = props.reload;
+        this.select_all = true;
 
         // Initial state with empty rows
         this.state = {
@@ -46,6 +48,7 @@ export class EditablePlayList extends BasePlayList {
         this.generateRows = this.generateRows.bind(this);
         this.onRemoveSelected = this.onRemoveSelected.bind(this);
         this.onSelectChanged = this.onSelectChanged.bind(this);
+        this.onSelectAll = this.onSelectAll.bind(this);
     }
 
     // This will load the table when the component is mounted
@@ -140,14 +143,44 @@ export class EditablePlayList extends BasePlayList {
         }
     }
 
+    // Selecte/deselect all rows
+    onSelectAll(evt) {
+        console.log("Select/deselect all");
+        for (let i = 0; i < this.state.rows.length; i++) {
+            this.state.rows[i].selected = this.select_all;
+        }
+
+        this.setState({rows: this.state.rows, rows_selected: this.select_all});
+
+        // Invert selection all/none
+        this.select_all = !this.select_all;
+    }
+
     render() {
         const HeaderComponents = this.generateHeaders();
         const RowComponents = this.generateRows();
 
         return (
             <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3>{this.state.title}</h3>
+                <div className="panel-heading container">
+                    <Row>
+                        <Col className="ms-0 ps-0">
+                            <Button
+                                className="mb-3"
+                                onClick={this.onRemoveSelected}
+                                disabled={this.state.rows_selected <= 0}
+                            >
+                                Remove Selected
+                            </Button>
+                        </Col>
+                        <Col>
+                            <h3>
+                                {this.state.title}
+                            </h3>
+                        </Col>
+                        <Col>
+                        </Col>
+                    </Row>
                     {this.state.alertMessage.length > 0 &&
                         <Alert variant="info">{this.state.alertMessage}</Alert>
                     }
@@ -176,7 +209,11 @@ export class EditablePlayList extends BasePlayList {
     generateHeaders() {
         return (
             <tr className="">
-                <th key="Select" className="pl1">Select</th>
+                <th key="Select" className="pl1">
+                    <Button onClick={this.onSelectAll}>
+                        Select
+                    </Button>
+                </th>
                 <th key="time" className="pl2">Time</th>
                 <th key="title-name-stream" className="pl3">Title/Name/Stream</th>
                 <th key="album" className="pl4">Album</th>
