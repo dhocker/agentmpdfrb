@@ -23,6 +23,7 @@ import Alert from 'react-bootstrap/Alert';
 import { ajaxSend } from "./ajax_utils";
 import "./play_list_scrollable_table.scss";
 import {BasePlayList} from "./base_play_list";
+import {SortDownIcon} from "./sort_down_icon";
 
 export class EditablePlayList extends BasePlayList {
     static SORT_ASC = 1;
@@ -34,6 +35,9 @@ export class EditablePlayList extends BasePlayList {
         this.messageTimer = null
         this.reload_playlist = props.reload;
         this.select_all = true;
+        this.sort_title_desc = false;
+        this.sort_album_desc = false;
+        this.sort_artist_desc = false;
 
         // Initial state with empty rows
         this.state = {
@@ -49,6 +53,10 @@ export class EditablePlayList extends BasePlayList {
         this.onRemoveSelected = this.onRemoveSelected.bind(this);
         this.onSelectChanged = this.onSelectChanged.bind(this);
         this.onSelectAll = this.onSelectAll.bind(this);
+        this.onSortByTitle = this.onSortByTitle.bind(this);
+        this.onSortByAlbum = this.onSortByAlbum.bind(this);
+        this.onSortByArtist = this.onSortByArtist.bind(this);
+        this.uploadUpdatedPlaylist = this.uploadUpdatedPlaylist.bind(this);
     }
 
     // This will load the table when the component is mounted
@@ -94,6 +102,21 @@ export class EditablePlayList extends BasePlayList {
         }
 
         return data;
+    }
+
+    async uploadUpdatedPlaylist() {
+        // Replace the entire mpd playlist with an updated
+        // playlist. Typically, the playlist will be sorted.
+        // Clear the mpd playlist
+        await ajaxSend('/cpl/playlist', "DELETE");
+
+        // Send the updated playlist
+        const all_tracks = []
+        const pl = this.state.rows;
+        for (let i = 0; i < pl.length; i++) {
+            all_tracks.push(pl[i].file || pl[i].uri);
+        }
+        await ajaxSend('/cpl/playlist', "POST", {"uris" : all_tracks});
     }
 
     showAlertMessage(msg) {
@@ -156,6 +179,36 @@ export class EditablePlayList extends BasePlayList {
         this.select_all = !this.select_all;
     }
 
+    // Sort playlist by title
+    onSortByTitle(evt) {
+        console.log("Sort by title");
+        this.state.rows.sort(sort_array_by("track", this.sort_title_desc));
+        this.setState({rows: this.state.rows});
+        this.sort_title_desc = !this.sort_title_desc;
+        // Update mpd playlist
+        this.uploadUpdatedPlaylist();
+    }
+
+    // Sort playlist by album
+    onSortByAlbum(evt) {
+        console.log("Sort by album");
+        this.state.rows.sort(sort_array_by("album", this.sort_album_desc));
+        this.setState({rows: this.state.rows});
+        this.sort_album_desc = !this.sort_album_desc;
+        // Update mpd playlist
+        this.uploadUpdatedPlaylist();
+    }
+
+    // Sort playlist by artist
+    onSortByArtist(evt) {
+        console.log("Sort by artist");
+        this.state.rows.sort(sort_array_by("artist", this.sort_artist_desc));
+        this.setState({rows: this.state.rows});
+        this.sort_artist_desc = !this.sort_artist_desc;
+        // Update mpd playlist
+        this.uploadUpdatedPlaylist();
+    }
+
     render() {
         const HeaderComponents = this.generateHeaders();
         const RowComponents = this.generateRows();
@@ -215,9 +268,24 @@ export class EditablePlayList extends BasePlayList {
                     </Button>
                 </th>
                 <th key="time" className="pl2">Time</th>
-                <th key="title-name-stream" className="pl3">Title/Name/Stream</th>
-                <th key="album" className="pl4">Album</th>
-                <th key="artist" className="pl5">Artist</th>
+                <th key="title-name-stream" className="pl3">
+                    <Button onClick={this.onSortByTitle}>
+                        Title/Name/Stream
+                        <SortDownIcon/>
+                    </Button>
+                </th>
+                <th key="album" className="pl4">
+                    <Button onClick={this.onSortByAlbum}>
+                        Album
+                        <SortDownIcon/>
+                    </Button>
+                </th>
+                <th key="artist" className="pl5">
+                    <Button onClick={this.onSortByArtist}>
+                        Artist
+                        <SortDownIcon/>
+                    </Button>
+                </th>
                 <th key="scrollbar" className="pl6"></th>
             </tr>
         );
@@ -267,3 +335,35 @@ EditablePlayList.defaultProps = {
     default_sort_column: 1,
     reload: 0,
 };
+
+/*
+Returns a comparator function that compares the specified
+property of an object. This is useful for sorting an
+array of objects by an object property.
+*/
+// TODO Refactor this function
+function sort_array_by(propname, desc) {
+    var reverse = 1;
+    // If desc is truthy, the sort is descending or reversed
+    if (typeof(desc) != 'undefined') {
+        reverse = (desc) ? -1 : 1;
+    }
+    return function(a, b) {
+        // Make the sort case insensitive
+        if (typeof(a[propname]) != 'string') {
+            a = a[propname];
+            b = b[propname];
+        }
+        else {
+            a = a[propname].toLowerCase();
+            b = b[propname].toLowerCase();
+        }
+        if (a < b) {
+            return reverse * -1;
+        }
+        if (a > b) {
+            return reverse * 1;
+        }
+        return 0;
+    }
+}
