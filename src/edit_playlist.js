@@ -53,6 +53,7 @@ export class EditPlaylist extends React.Component {
             ok_cancel_text: "",
             show_add_uri_dialog: false,
             uri_entered: "",
+            alertMessage: null,
         };
 
         this.selectedPlaylists = [];
@@ -109,7 +110,7 @@ export class EditPlaylist extends React.Component {
             // Currently, the data returned is a dict/object with only a playlists property.
             // Eventually, we hope to introduce the notion of a playlist name.
             $this.setState({
-                playlists: data.playlists
+                playlists: data.playlists,
             });
             $this.selectedPlaylists = [];
         } else {
@@ -467,6 +468,7 @@ export class EditPlaylist extends React.Component {
             <div className="panel panel-default">
                 <div className="jumbotron text-center h-25 p-1 my-2">
                     <h1 className="text-primary">Edit the Current Playlist</h1>
+                    {this.state.alertMessage || "" }
                 </div>
                 <div>
                     <Button
