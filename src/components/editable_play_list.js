@@ -23,7 +23,7 @@ import Alert from 'react-bootstrap/Alert';
 import { ajaxSend } from "./ajax_utils";
 import "./play_list_scrollable_table.scss";
 import {BasePlayList} from "./base_play_list";
-import {SortDownIcon} from "./sort_down_icon";
+import {SortDownIcon} from "./sort_icons";
 
 export class EditablePlayList extends BasePlayList {
     static SORT_ASC = 1;
