@@ -18,7 +18,6 @@
 import React from 'react';
 import {Form} from "react-bootstrap";
 import PropTypes from 'prop-types';
-import {updateSelectedExample} from "react-html-parser/demo/src/js/actions";
 
 // MultiSelectListBox(rows, controlId, name, label, onSelect)
 export class MultiSelectListbox extends React.Component {
@@ -71,7 +70,7 @@ export class MultiSelectListbox extends React.Component {
             selected_values.push(selected_row_index);
         }
 
-        this.setState({selected_values: selected_values});
+        this.setState({"selected_values": selected_values});
         this.props.onSelectionChanged(selected_rows);
     }
 
@@ -97,18 +96,17 @@ export class MultiSelectListbox extends React.Component {
         return (
             <Form.Group>
                 <Form.Label>{this.props.label}</Form.Label>
-                <Form.Control
+                <Form.Select
                     id={$this.props.controlId}
                     name={$this.props.name}
-                    as="select"
                     defaultValue={[]}
                     onChange={$this.onSelectionChange}
                     style={{height: $this.props.height}}
-                    multiple
-                    value={this.state.selected_values}
+                    multiple={true}
+                    value={$this.state.selected_values}
                 >
                     {renderedRows}
-                </Form.Control>
+                </Form.Select>
             </Form.Group>
         );
     }
