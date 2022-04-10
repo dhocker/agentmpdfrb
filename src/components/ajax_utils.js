@@ -25,9 +25,25 @@ export async function ajaxSend(sourceURL, method= "PUT", data = null) {
         args["body"] = JSON.stringify(data_to_be_sent) // body data type must match "Content-Type" header
     }
 
-    // The response will be returned wrapped in a Promise
-    const response = await fetch(sourceURL, args);
-    return await response.json();
+    // The send request may or may not return something in the form of JSON
+    let result = null;
+    try {
+        const response = await fetch(sourceURL, args);
+        if (response.status === 200) {
+            result = await response.text();
+            if (result !== "") {
+                result = JSON.parse(result);
+            }
+        } else {
+            result = null;
+        }
+    } catch (e) {
+        console.log("ajaxSend Exception: " + String(e));
+        result = null;
+    }
+
+    // The result is either null or an object (dict)
+    return result;
 }
 
 // Get with optional search arguments
