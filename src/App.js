@@ -23,6 +23,7 @@ import { About } from './about';
 import { MainFooter } from './components/main_footer';
 import { EditPlaylist } from "./edit_playlist";
 import { SettingsForm } from "./settings_form";
+import { UpdateDatabase } from "./update_database";
 
 function App() {
   // That all pages are inside the container
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element=<Player /> exact />
         <Route path="/editplaylist" element=<EditPlaylist /> exact />
+        <Route path="/updatedatabase" element=<UpdateDatabase /> exact />
         <Route path="/settingsform" element=<SettingsForm /> exact />
         <Route path="/about" element=<About /> exact />
         <Route component={Error} />

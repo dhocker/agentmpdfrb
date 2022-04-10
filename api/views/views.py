@@ -62,6 +62,7 @@ def logos(reso):
 @app.route(url_with_prefix("/player"), methods=['GET'])
 @app.route(url_with_prefix("/editplaylist"), methods=['GET'])
 @app.route(url_with_prefix("/settingsform"), methods=['GET'])
+@app.route(url_with_prefix("/updatedatabase"), methods=['GET'])
 @app.route(url_with_prefix("/"), methods=['GET'])
 def mpd_player():
     """

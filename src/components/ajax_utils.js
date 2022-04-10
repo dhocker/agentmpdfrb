@@ -26,7 +26,8 @@ export async function ajaxSend(sourceURL, method= "PUT", data = null) {
     }
 
     // The response will be returned wrapped in a Promise
-    return await fetch(sourceURL, args);
+    const response = await fetch(sourceURL, args);
+    return await response.json();
 }
 
 // Get with optional search arguments
