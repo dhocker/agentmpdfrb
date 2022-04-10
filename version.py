@@ -19,10 +19,10 @@ from api import app
 from api.models.player import Player
 
 def GetVersion():
-  """
-  Returns the current app version
-  """
-  return "2022.0.2.0"
+    """
+    Returns the current app version
+    """
+    return "2022.0.3.0"
 
 def GetMPDVersion():
     player = Player()
