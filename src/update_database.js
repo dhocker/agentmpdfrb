@@ -92,7 +92,11 @@ export class UpdateDatabase extends React.Component {
                     </Col>
                     <Col className="text-center">
                         <h1>Update Database</h1>
-                        <Button variant="primary mt-3 mb-3" onClick={this.onUpdateDatabase}>
+                        <Button
+                            variant="primary mt-3 mb-3"
+                            onClick={this.onUpdateDatabase}
+                            disabled={this.statusTimerId !== -1}
+                        >
                             Update Database
                         </Button>
                         <Alert className="mt-3" variant="info" show={this.state.show_alert}>
