@@ -26,6 +26,7 @@ export class UpdateDatabase extends React.Component {
 
         this.statusTimerId = -1;
         this.statusTimerInterval = 2 * 1000; // milliseconds
+        this.startTime = 0; // in milliseconds
 
         // Initial state with empty rows
         this.state = {
@@ -58,9 +59,11 @@ export class UpdateDatabase extends React.Component {
         const status = await ajaxSend("/player/musicdatabase", "PUT");
         console.log(status);
 
+        this.startTime = Date.now();
+
         if ("updating_db" in status) {
             const msg = (<><p>Update database sequence {status.updating_db} started</p>
-                <p>This will take a while</p>
+                <p>Elapsed time: {this.formatElapsedTime(0)}</p>
                 <Spinner animation="border" />
                 </>);
             this.setState({show_alert: true, show_message: msg});
@@ -76,11 +79,31 @@ export class UpdateDatabase extends React.Component {
         const status = await ajaxGet('/player/currentstatus');
         console.log(status);
 
+        const elapsed = (Date.now() - this.startTime) / 1000;
+        const fmtElapsed = this.formatElapsedTime(elapsed);
+
         if (!("updating_db" in status)) {
             clearInterval(this.statusTimerId);
             this.statusTimerId = -1;
-            this.setState({show_alert: true, show_message: "Update complete"});
+            const msg = (<><p>Update complete</p>
+                <p>Elapsed time: {fmtElapsed}</p>
+                </>);
+            this.setState({show_alert: true, show_message: msg});
+        } else {
+            const elapsed = (Date.now() - this.startTime) / 1000;
+            const msg = (<><p>Update database sequence {status.updating_db} started</p>
+                <p>Elapsed time: {fmtElapsed}</p>
+                <Spinner animation="border" />
+                </>);
+            this.setState({show_alert: true, show_message: msg});
         }
+    }
+
+    // Format elapsed time in sec to hh:mm:ss
+    formatElapsedTime(sec) {
+        const date = new Date(0);
+        date.setSeconds(sec);
+        return date.toISOString().substring(11, 19);
     }
 
     render() {
