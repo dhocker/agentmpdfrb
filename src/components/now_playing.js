@@ -38,6 +38,7 @@ export class NowPlaying extends React.Component {
                 <div className="card-header text-center">
                     <button
                         className="btn btn-primary"
+                        disabled={isNaN(this.props.songid)}
                         onClick={this.onNowPlayingClicked}
                     >
                         Now Playing
