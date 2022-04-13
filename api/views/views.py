@@ -26,7 +26,9 @@ import json
 import os
 from pathlib import Path
 from http import HTTPStatus
+import logging
 
+logger = logging.getLogger("app")
 
 # The path to the Webpack build folder.
 # This is essentially a workaround to get to the favicon.ico and logo*.png files.
@@ -308,7 +310,7 @@ def get_markdown_file(fn):
     mdtext = ""
     static_folder = Path(os.getcwd())
     file_path = static_folder / (fn + ".md")
-    print("get markdown file:", file_path)
+    logger.debug("Get markdown file: %s", file_path)
     with open(file_path, "r") as mdfh:
         mdtext = mdfh.read()
 

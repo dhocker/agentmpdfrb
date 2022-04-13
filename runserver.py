@@ -18,19 +18,22 @@
 #   workon flask-.env            # Establish working virtual environment with Flask
 #   python runserver.py
 
-from api import app
-#import configuration
-#import Logging
-#import logging
+from configuration import Configuration
+from app_logging import enable_server_logging, shutdown
+import logging
 
 
 if __name__ == "__main__":
+    # Start up logging before running the server
+    cfg = Configuration()
+    enable_server_logging()
 
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    from api import app
+    app.run(host='0.0.0.0', port=cfg.port())
 
-    #logger = logging.getLogger("app")
+    logger = logging.getLogger("app")
 
-    #logger.info("AHPS_Web ended")
-    #logger.info("################################################################################")
-    #Logging.Shutdown()
+    logger.info("AgentMPDFRB ended")
+    logger.info("################################################################################")
+    shutdown()
 

@@ -18,6 +18,10 @@ from api.models.key_value_store import KVStore
 import mpd
 from datetime import datetime, timedelta
 import threading
+import logging
+
+
+logger = logging.getLogger("app")
 
 
 # Wrapper to provide consistent error handling across all mpd client calls
@@ -93,7 +97,7 @@ class MPDModel:
         # Traverse connection pool backwards so we can remove
         # exoired connections without issue.
         i = len(MPDModel._connection_pool)
-        print("Pool size:", i)
+        logger.debug("Pool size: %d", i)
         while i > 0:
             i -= 1
             cnn = MPDModel._connection_pool[i]
@@ -101,7 +105,7 @@ class MPDModel:
             if delta.total_seconds() > MPDModel._connection_timeout:
                 try:
                     cnn.client.close()
-                    print("Closed MPD connection:", cnn)
+                    logger.debug("Closed MPD connection: %s", str(cnn))
                 except:
                     pass
                 MPDModel._connection_pool.pop(i)
@@ -125,7 +129,7 @@ class MPDModel:
                 try:
                     cnn = MPDConnection()
                 except Exception as ex:
-                    print(ex)
+                    logger.error(str(ex))
                     cnn = None
                     raise MPDModelException(str(ex))
                 host = KVStore.get("mpd", "host", "localhost")
@@ -133,10 +137,10 @@ class MPDModel:
                 try:
                     cnn.client.connect(host, int(port))
                     cnn.last_use = datetime.now()
-                    print("Create connection:", cnn)
+                    logger.debug("Create connection: %s", str(cnn))
                 except Exception as ex:
                     # Attempt to open a new connection failed
-                    print(ex)
+                    logger.error(str(ex))
                     cnn = None
                     #============================
                     MPDModel._pool_lock.release()

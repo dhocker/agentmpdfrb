@@ -15,62 +15,62 @@
 # along with this program (the LICENSE file).  If not, see <http://www.gnu.org/licenses/>.
 #
 
-#import os
-#import Logging
-#import logging
-from flask import Flask
+import atexit
+from app_logging import enable_server_logging, shutdown
+import logging
 from api.views.url_utils import url_with_prefix
-#import configuration
+from configuration import Configuration
 
-# Enable logging for start up. Will be changed later.
-#Logging.EnableStartupLogging()
+# Start up logging BEFORE running the server
+cfg = Configuration()
+enable_server_logging()
 
 # In order for url prefixing to work, the path to static
 # must be prefixed just like any other url.
+from flask import Flask
 app = Flask(__name__,
             static_url_path=url_with_prefix('/static'),
             static_folder='../build/static',
             template_folder='../build'
             )
 
-
 # Load default config and override config from an environment variable
 # This is really the Flask configuration
-#app.config.update(dict(
-#    DATABASE='ahps_web.sqlite3',
-#    DEBUG=True,
-#    SECRET_KEY='development key',
-#    USERNAME='admin',
-#    PASSWORD='default',
-#    SQLALCHEMY_DATABASE_URI='',  # Use Sqlite file db
-#    CSRF_ENABLED=True,
-#    USER_ENABLE_EMAIL=False                   # Disable emails for now
-#
-#))
+# app.config.update(dict(
+#     DATABASE='ahps_web.sqlite3',
+#     DEBUG=True,
+#     SECRET_KEY='development key',
+#     USERNAME='admin',
+#     PASSWORD='default',
+#     SQLALCHEMY_DATABASE_URI='',  # Use Sqlite file db
+#     CSRF_ENABLED=True,
+#     USER_ENABLE_EMAIL=False                   # Disable emails for now
+# ))
 
-# This is the app-specific configuration
-#cfg = configuration.Configuration.load_configuration(app.root_path)
-
-# Load randomly generated secret key from file
+# TODO Load randomly generated secret key from file
 # Reference: http://flask.pocoo.org/snippets/104/
 # Run make_secret_key to create a new key and save it in secret_key
-#key_file = configuration.Configuration.SecretKey()
-#app.config['SECRET_KEY'] = open(key_file, 'r').read()
-#app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{0}".format(configuration.Configuration.get_database_file_path('ahps_web.sqlite3'))
-
-# Start logging
-#Logging.EnableServerLogging()
+# key_file = configuration.Configuration.SecretKey()
+# app.config['SECRET_KEY'] = open(key_file, 'r').read()
 
 # All views must be imported after the app is defined
 from api.views import views
 from api.views import settings
 from api.views import playlist
-#from api.views import exception_handler
 
-#logger = logging.getLogger("app")
 
-# Required to expose version
-# from version import GetVersion
-#logger.info("################################################################################")
-#logger.info("Starting AHPS_Web version %s", GetVersion())
-#logger.info("Using configuration file %s", configuration.Configuration.get_configuration_file_path())
+def on_app_exit():
+    """
+    Catch server exist. Shutdown logging.
+    :return:
+    """
+    logger = logging.getLogger("app")
+
+    # Required to expose version
+    # from version import GetVersion
+    logger.info("################################################################################")
+    logger.info("AgentMPDFRB ended")
+    shutdown()
+
+
+atexit.register(on_app_exit)
