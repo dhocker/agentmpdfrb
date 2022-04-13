@@ -21,6 +21,7 @@
 agentmpdfrb.conf
 __pycache__
 *.log*
+secret_key
 
 npm-debug.log*
 yarn-debug.log*

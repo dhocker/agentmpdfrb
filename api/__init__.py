@@ -50,8 +50,8 @@ app = Flask(__name__,
 # TODO Load randomly generated secret key from file
 # Reference: http://flask.pocoo.org/snippets/104/
 # Run make_secret_key to create a new key and save it in secret_key
-# key_file = configuration.Configuration.SecretKey()
-# app.config['SECRET_KEY'] = open(key_file, 'r').read()
+key_file = Configuration.secret_key()
+app.config['SECRET_KEY'] = open(key_file, 'r').read()
 
 # All views must be imported after the app is defined
 from api.views import views
