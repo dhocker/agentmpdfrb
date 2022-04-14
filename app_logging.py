@@ -16,7 +16,7 @@ import configuration
 
 def enable_server_logging():
     """
-    Enable logging for the AtHomePowerlineServer application
+    Enable logging for the app
     :return: None
     """
     # Default overrides
