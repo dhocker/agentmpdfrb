@@ -24,6 +24,7 @@ import { MainFooter } from './components/main_footer';
 import { EditPlaylist } from "./edit_playlist";
 import { SettingsForm } from "./settings_form";
 import { UpdateDatabase } from "./update_database";
+import { MPDStatusPage } from "./mpd_status_page";
 
 function App() {
   // That all pages are inside the container
@@ -32,6 +33,7 @@ function App() {
       <MainNavBar></MainNavBar>
       <Routes>
         <Route path="/" element=<Player /> exact />
+        <Route path="/mpdstatus" element=<MPDStatusPage /> exact />
         <Route path="/editplaylist" element=<EditPlaylist /> exact />
         <Route path="/updatedatabase" element=<UpdateDatabase /> exact />
         <Route path="/settingsform" element=<SettingsForm /> exact />

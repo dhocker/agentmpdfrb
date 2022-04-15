@@ -30,6 +30,9 @@ export class MainNavBar extends React.Component {
                     <LinkContainer to="/editplaylist" className="nav-link">
                         <NavItem className="nav-item">Edit Playlist</NavItem>
                     </LinkContainer>
+                    <LinkContainer to="/mpdstatus" className="nav-link">
+                        <NavItem className="nav-item">MPD Status</NavItem>
+                    </LinkContainer>
                     <LinkContainer to="/updatedatabase" className="nav-link">
                         <NavItem className="nav-item">Update Database</NavItem>
                     </LinkContainer>
