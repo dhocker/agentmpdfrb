@@ -16,8 +16,7 @@
 */
 
 import React from 'react';
-import {Table, Col, Container, Row} from "react-bootstrap";
-import {ajaxGet} from "./components/ajax_utils";
+import {Col, Container, Row} from "react-bootstrap";
 import {MPDStatus} from "./components/mpd_status";
 
 // import PropTypes from 'prop-types';

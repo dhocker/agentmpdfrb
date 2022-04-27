@@ -17,7 +17,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Table, Col, Container, Row} from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import {ajaxGet} from "./ajax_utils";
 
 export class MPDStatus extends React.Component {

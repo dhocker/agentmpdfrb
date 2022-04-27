@@ -90,7 +90,6 @@ export class UpdateDatabase extends React.Component {
                 </>);
             this.setState({show_alert: true, show_message: msg});
         } else {
-            const elapsed = (Date.now() - this.startTime) / 1000;
             const msg = (<><p>Update database sequence {status.updating_db} started</p>
                 <p>Elapsed time: {fmtElapsed}</p>
                 <Spinner animation="border" />
