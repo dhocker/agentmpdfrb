@@ -21,23 +21,25 @@ from api.views.url_utils import url_with_prefix
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, jsonify
 import json
+from http import HTTPStatus
+import logging
 
-
-# @app.route(url_with_prefix("/settings_page"), methods=['GET'])
-# def settings_page():
-#     return render_template("settings.html", host="raspberrypi-fs", ngapp="agentmpd", ngcontroller="settingsController")
+logger = logging.getLogger("app")
 
 
 @app.route(url_with_prefix("/settings"), methods=['GET'])
 def get_settings():
     # Return current settings
+    logger.debug("Returning all settings")
     return jsonify(Settings.get())
 
 
 @app.route(url_with_prefix("/settings"), methods=['PUT'])
 def save_settings():
     # Save settings
-    args = json.loads(request.data.decode())
+    args = json.loads(request.data.decode())["data"]
     Settings.save(args)
     reset_player()
-    return ""
+    logger.debug(json.dumps(args, indent=4))
+    logger.debug("All settings saved")
+    return "", HTTPStatus.OK

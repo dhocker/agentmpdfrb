@@ -41,6 +41,7 @@ export class SettingsForm extends React.Component {
         this.onHostControlChange = this.onHostControlChange.bind(this);
         this.onNumericControlChange = this.onNumericControlChange.bind(this);
         this.onSave = this.onSave.bind(this);
+        this.showAlert = this.showAlert.bind(this);
         this.clearAlert = this.clearAlert.bind(this);
     }
 
@@ -93,10 +94,10 @@ export class SettingsForm extends React.Component {
             // We send the entire state. The server ignores extra properties.
             let resp = await ajaxSend("/settings", "PUT", this.state);
             // console.log(resp);
-            if (resp.ok) {
+            if (resp === "") {
                 this.showAlert("primary", "Saved");
             } else {
-                this.showAlert("danger", resp.statusText);
+                this.showAlert("danger", resp);
             }
         } else {
             this.showAlert("danger", "Invalid host name or host IP address");
