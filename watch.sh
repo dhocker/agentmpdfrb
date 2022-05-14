@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 while true; do
+  npm run build-d
   echo
   echo Waiting...
   echo
