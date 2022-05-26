@@ -76,6 +76,7 @@ export class Player extends React.Component {
         this.onPlayNow = this.onPlayNow.bind(this);
         this.onNowPlaying = this.onNowPlaying.bind(this);
         this.onShowingTopSong = this.onShowingTopSong.bind(this);
+        this.onKeyStroke = this.onKeyStroke.bind(this);
     }
 
     // This will initialize the player when the component is mounted
@@ -83,6 +84,9 @@ export class Player extends React.Component {
         // Load status once then periodically
         this.loadCurrentStatus();
         this.statusTimerId = setInterval(this.onIntervalTimerTick, this.statusTimerInterval);
+
+        // Capture keystrokes
+        document.addEventListener('keypress', this.onKeyStroke);
     }
 
     componentWillUnmount() {
@@ -90,6 +94,28 @@ export class Player extends React.Component {
             clearInterval(this.statusTimerId);
             this.statusTimerId = -1;
         }
+        // Remove the key handler
+        document.removeEventListener("keypress", this.onKeyStroke);
+    }
+
+    // Support space bar as a play/pause control
+    async onKeyStroke(event) {
+        console.log("Keystroke: " + String(event.keyCode));
+        if (event.keyCode === 32 && event.target === document.body) {
+            switch (this.state.current_state) {
+                case STATE_PLAYING:
+                    await this.onTrackPause();
+                    break;
+                case STATE_PAUSED:
+                case STATE_STOPPED:
+                    await this.onTrackPlay();
+                    break;
+            }
+            // Note that under Firefox this does not seem to work
+            event.preventDefault();
+            return false;
+        }
+        return true;
     }
 
     onIntervalTimerTick() {
